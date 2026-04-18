@@ -1,0 +1,188 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const lang = 'tr';
+const brand = 'e-any-online';
+---
+
+<Layout title="SVG Vectorizer" lang={lang} brand={brand}>
+  <Header lang={lang} brand={brand} />
+  
+  <main class="pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-6">
+      <a href="/tools" class="inline-flex items-center gap-2 text-sm text-text-40 hover:text-primary mb-8 transition-colors">
+        <span class="material-symbols-outlined text-sm">arrow_back</span> Araçlara Dön
+      </a>
+
+      <div class="mb-12 animate-fade-up">
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-4">SVG Vectorizer</h1>
+        <p class="text-text-70">PNG ikonları Harezm standardında vektörel SVG'lere dönüştürün.</p>
+      </div>
+
+      <!-- Tool Interface -->
+      <div class="grid grid-cols-1 gap-8 animate-fade-up delay-1">
+        <!-- Upload Zone -->
+        <div id="dropzone" class="border-2 border-dashed border-border rounded-2xl p-12 text-center hover:border-primary transition-colors cursor-pointer group">
+          <input type="file" id="fileInput" class="hidden" accept="image/png" />
+          <div class="w-16 h-16 rounded-full bg-surface mx-auto mb-6 flex items-center justify-center text-text-40 group-hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+          </div>
+          <p class="text-lg font-bold mb-2">PNG Dosyasını Sürükle veya Seç</p>
+          <p class="text-text-40 text-sm">Sadece surrealist ikon PNG'leri için optimize edilmiştir.</p>
+        </div>
+
+        <!-- Result Section (Hidden until upload) -->
+        <div id="resultSection" class="hidden space-y-8 animate-fade-up">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Original Preview -->
+            <div class="glass-card p-6">
+              <span class="text-[10px] font-bold text-text-40 uppercase tracking-widest block mb-4">Orijinal</span>
+              <div class="aspect-square bg-surface/50 rounded-xl flex items-center justify-center p-8">
+                <img id="originalPreview" class="max-w-full max-h-full object-contain" />
+              </div>
+            </div>
+
+            <!-- Result Preview -->
+            <div class="glass-card p-6 border-primary/20 bg-primary/2">
+              <span class="text-[10px] font-bold text-text-40 uppercase tracking-widest block mb-4">Vektörel Sonuç</span>
+              <div id="svgContainer" class="aspect-square bg-surface/50 rounded-xl flex items-center justify-center p-8 text-primary">
+                <!-- SVG injected here -->
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-center gap-4">
+             <button id="downloadBtn" class="px-8 py-4 rounded-xl bg-primary text-bg font-bold flex items-center gap-2 hover:scale-105 transition-transform">
+               <span class="material-symbols-outlined">download</span> İndir (.svg)
+             </button>
+             <button id="resetBtn" class="px-8 py-4 rounded-xl border border-border font-bold hover:bg-surface transition-colors">Yeniden Yükle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Specs Info -->
+       <div class="mt-20 p-8 glass-card border-none bg-surface/20">
+          <h4 class="font-bold mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">info</span> İkon Standartları
+          </h4>
+          <ul class="text-sm text-text-70 space-y-3">
+            <li>• <strong>Siyah (rgb 0,0,0)</strong> otomatik olarak <code>currentColor</code> değerine atanır.</li>
+            <li>• <strong>Sarı (rgb 255,220,0)</strong> otomatik olarak <code>var(--primary)</code> değerine atanır.</li>
+            <li>• Arka plan beyazı şeffaf hale getirilir.</li>
+          </ul>
+       </div>
+    </div>
+  </main>
+
+  <Footer lang={lang} brand={brand} />
+</Layout>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/imagetracerjs/1.2.6/imagetracer_v1.2.6.js" is:inline></script>
+
+<script is:inline>
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const resultSection = document.getElementById('resultSection');
+  const originalPreview = document.getElementById('originalPreview');
+  const svgContainer = document.getElementById('svgContainer');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  let currentSvgStr = '';
+  let currentFileName = 'icon.svg';
+
+  // Palette Configuration
+  const options = {
+    pal: [
+      { r: 0, g: 0, b: 0, a: 255 },         // Lines
+      { r: 255, g: 255, b: 255, a: 255 },   // Background
+      { r: 255, g: 220, b: 0, a: 255 }      // Highlights
+    ],
+    colorsampling: 0,
+    ltres: 1,
+    qtres: 1,
+    pathomit: 16,
+    scale: 1,
+    viewbox: true
+  };
+
+  dropzone.onclick = () => fileInput.click();
+
+  fileInput.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) handleFile(file);
+  };
+
+  dropzone.ondragover = (e) => {
+    e.preventDefault();
+    dropzone.classList.add('border-primary');
+  };
+
+  dropzone.ondragleave = () => {
+    dropzone.classList.remove('border-primary');
+  };
+
+  dropzone.ondrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  };
+
+  function handleFile(file) {
+    if (!file.type.includes('image/png')) {
+       alert('Lütfen sadece PNG dosyası yükleyin.');
+       return;
+    }
+
+    currentFileName = file.name.replace('.png', '.svg');
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      originalPreview.src = e.target.result;
+      processImage(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function processImage(dataUrl) {
+    ImageTracer.imageToSVG(dataUrl, (svgstr) => {
+      // Post-Processing
+      let processed = svgstr;
+      
+      // 1. Black -> currentColor
+      processed = processed.replace(/fill="rgb\(0,0,0\)"/g, 'fill="currentColor"');
+      
+      // 2. White -> Transparent
+      processed = processed.replace(/fill="rgb\(255,255,255\)"/g, 'fill="transparent"');
+      
+      // 3. Highlight Yellow -> var(--primary)
+      // Note: ImageTracer output format might vary slightly, but vectorize.js uses rgb(255,220,0)
+      processed = processed.replace(/fill="rgb\(255,220,0\)"/g, 'fill="var(--primary, #D0FD17)"');
+
+      // Cleanup transparent paths
+      processed = processed.replace(/<path fill="transparent"[^>]*\/>/g, '');
+
+      currentSvgStr = processed;
+      svgContainer.innerHTML = processed;
+      
+      dropzone.classList.add('hidden');
+      resultSection.classList.remove('hidden');
+    }, options);
+  }
+
+  downloadBtn.onclick = () => {
+    const blob = new Blob([currentSvgStr], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = currentFileName;
+    a.click();
+  };
+
+  resetBtn.onclick = () => {
+    resultSection.classList.add('hidden');
+    dropzone.classList.remove('hidden');
+    fileInput.value = '';
+  };
+</script>

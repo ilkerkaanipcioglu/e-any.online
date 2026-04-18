@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const lang = 'tr';
+const brand = 'e-any-online';
+---
+
+<Layout title="E-Any Tools" lang={lang} brand={brand}>
+  <Header lang={lang} brand={brand} />
+  
+  <main class="pt-32 pb-20">
+    <div class="max-w-[var(--spacing-container)] mx-auto px-6">
+      <div class="mb-12 animate-fade-up">
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Araçlar Portalı</h1>
+        <p class="text-lg text-text-70">Ekosistem üretkenliğini artıran teknik araçlar.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- SVG Vectorizer -->
+        <a href="/tools/svg-vectorizer" class="glass-card p-10 group animate-fade-up delay-1">
+          <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-bg mb-6 group-hover:scale-110 transition-transform">
+             <span class="material-symbols-outlined">auto_fix_high</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">SVG Vectorizer</h3>
+          <p class="text-text-70 text-sm leading-relaxed mb-6">
+            PNG ikonları saniyeler içinde temiz, iki renkli ve CSS uyumlu SVG'lere dönüştürün.
+          </p>
+          <div class="flex items-center gap-2 text-primary font-bold text-sm">
+            Hemen Kullan <span class="group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </a>
+
+        <!-- Placeholder for future tools -->
+        <div class="glass-card p-10 opacity-50 cursor-not-allowed animate-fade-up delay-2">
+          <div class="w-12 h-12 rounded-xl bg-surface flex items-center justify-center text-text-70 mb-6 font-bold">
+            <span class="material-symbols-outlined">lock</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">Logo Generator</h3>
+          <p class="text-text-70 text-sm leading-relaxed mb-6">
+            Pillar-tabanlı logo ve varyasyon üretim aracı. (Yakında)
+          </p>
+        </div>
+
+        <div class="glass-card p-10 opacity-50 cursor-not-allowed animate-fade-up delay-3">
+          <div class="w-12 h-12 rounded-xl bg-surface flex items-center justify-center text-text-70 mb-6 font-bold">
+            <span class="material-symbols-outlined">lock</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">Contract Validator</h3>
+          <p class="text-text-70 text-sm leading-relaxed mb-6">
+            Manifest.toml ve CSS token uyumluluk kontrolü. (Yakında)
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={lang} brand={brand} />
+</Layout>

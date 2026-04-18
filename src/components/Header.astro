@@ -15,6 +15,7 @@ const { lang, brand = 'harezm' } = Astro.props;
 
     <nav class="hidden md:flex items-center gap-8">
       <a href={getLocalePath('/', lang)} class="text-sm font-medium hover:text-primary transition-colors">{t('nav.home', lang)}</a>
+      <a href={getLocalePath('/tools', lang)} class="text-sm font-medium hover:text-primary transition-colors">Araçlar</a>
       <a href={getLocalePath('/hizmetler', lang)} class="text-sm font-medium hover:text-primary transition-colors">{t('nav.services', lang)}</a>
       <a href={getLocalePath('/hakkimizda', lang)} class="text-sm font-medium hover:text-primary transition-colors">{t('nav.about', lang)}</a>
       <a href={getLocalePath('/iletisim', lang)} class="px-5 py-2 rounded-full bg-primary text-bg text-sm font-bold hover:scale-105 transition-transform">{t('nav.contact', lang)}</a>
