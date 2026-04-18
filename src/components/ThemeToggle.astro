@@ -1,0 +1,27 @@
+---
+---
+<button id="theme-toggle" class="relative flex items-center justify-center w-10 h-10 rounded-full bg-surface border border-border group overflow-hidden hover:border-primary transition-colors">
+  <span class="material-symbols-outlined dark-icon hidden absolute">dark_mode</span>
+  <span class="material-symbols-outlined light-icon hidden absolute">light_mode</span>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const doc = document.documentElement;
+  
+  function updateIcon() {
+    const isDark = doc.getAttribute('data-theme') === 'dark';
+    document.querySelector('.dark-icon')?.classList.toggle('hidden', isDark);
+    document.querySelector('.light-icon')?.classList.toggle('hidden', !isDark);
+  }
+
+  toggle?.addEventListener('click', () => {
+    const current = doc.getAttribute('data-theme');
+    const target = current === 'dark' ? 'light' : 'dark';
+    doc.setAttribute('data-theme', target);
+    localStorage.setItem('theme', target);
+    updateIcon();
+  });
+
+  updateIcon();
+</script>

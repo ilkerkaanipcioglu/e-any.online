@@ -1,0 +1,31 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { t, getLocalePath } from '../i18n/utils';
+const { lang, brand = 'harezm' } = Astro.props;
+---
+
+<header class="glass-nav fixed top-0 left-0 w-full z-50">
+  <div class="max-w-[var(--spacing-container)] mx-auto px-6 h-20 flex items-center justify-between">
+    <a href={getLocalePath('/', lang)} class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-bg font-bold">
+        {brand[0].toUpperCase()}
+      </div>
+      <span class="font-bold text-xl tracking-tight">{brand === 'harezm' ? 'Harezm' : brand}</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8">
+      <a href={getLocalePath('/', lang)} class="text-sm font-medium hover:text-primary transition-colors">{t('nav.home', lang)}</a>
+      <a href={getLocalePath('/hizmetler', lang)} class="text-sm font-medium hover:text-primary transition-colors">{t('nav.services', lang)}</a>
+      <a href={getLocalePath('/hakkimizda', lang)} class="text-sm font-medium hover:text-primary transition-colors">{t('nav.about', lang)}</a>
+      <a href={getLocalePath('/iletisim', lang)} class="px-5 py-2 rounded-full bg-primary text-bg text-sm font-bold hover:scale-105 transition-transform">{t('nav.contact', lang)}</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <!-- Language Switcher -->
+      <a href={lang === 'tr' ? '/en/' : '/'} class="w-10 h-10 flex items-center justify-center rounded-full border border-border text-xs font-bold hover:border-primary">
+        {lang === 'tr' ? 'EN' : 'TR'}
+      </a>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>

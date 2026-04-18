@@ -1,0 +1,46 @@
+---
+import { t } from '../i18n/utils';
+const { lang, brand = 'harezm' } = Astro.props;
+---
+
+<footer class="mt-20 py-20 border-t border-border">
+  <div class="max-w-[var(--spacing-container)] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="col-span-1 md:col-span-2">
+      <div class="flex items-center gap-2 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-bg font-bold">
+          {brand[0].toUpperCase()}
+        </div>
+        <span class="font-bold text-xl tracking-tight">{brand === 'harezm' ? 'Harezm' : brand}</span>
+      </div>
+      <p class="text-text-70 max-w-sm leading-relaxed mb-8">
+        Harezm Ekosistemi, SAP danışmanlığından yapay zekaya, fintech'ten regtech'e kadar dijital dönüşümün her alanında uçtan uca çözümler sunar.
+      </p>
+    </div>
+
+    <div>
+      <h4 class="font-bold mb-6">Ekosistem</h4>
+      <ul class="flex flex-col gap-4 text-sm text-text-70">
+        <li><a href="https://harezm.com" class="hover:text-primary">Harezm . Web</a></li>
+        <li><a href="https://eny.com.tr" class="hover:text-primary">eny . Fintech</a></li>
+        <li><a href="https://agentandbot.com" class="hover:text-primary">agentandbot . AI</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-bold mb-6">Bize Ulaşın</h4>
+      <p class="text-sm text-text-70 leading-relaxed">
+        Maslak, İstanbul<br>
+        iletisim@harezm.com<br>
+        +90 212 ... .. ..
+      </p>
+    </div>
+  </div>
+
+  <div class="max-w-[var(--spacing-container)] mx-auto px-6 mt-20 pt-8 border-t border-border/40 flex justify-between items-center text-xs text-text-40">
+    <p>{t('footer.copy', lang)}</p>
+    <div class="flex gap-6">
+        <a href="#" class="hover:text-primary">KVKK</a>
+        <a href="#" class="hover:text-primary">Gizlilik Politikası</a>
+    </div>
+  </div>
+</footer>

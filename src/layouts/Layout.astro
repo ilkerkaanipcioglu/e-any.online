@@ -1,0 +1,59 @@
+---
+export interface Props {
+  title: string;
+  lang?: 'tr' | 'en';
+  description?: string;
+  brand?: 'harezm' | 'eny' | 'agentandbot' | 'e-any-com' | 'e-any-online' | 'e-any-info' | 'ipcioglu' | 'ilkerkaan';
+}
+
+import '../styles/global.css';
+
+const { 
+  title, 
+  lang = 'tr',
+  description = 'Harezm Ekosistemi - Geleceği İnşa Ediyoruz.',
+  brand = 'e-any-online'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://harezm.com');
+---
+
+<!DOCTYPE html>
+<html lang={lang} data-theme="dark" data-brand={brand} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | {brand.toUpperCase()}</title>
+    <meta name="description" content={description} />
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL.href} />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+    <!-- Theme Logic -->
+    <script is:inline>
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', storedTheme || systemTheme);
+      })();
+    </script>
+  </head>
+  <body class="selection:bg-primary selection:text-bg">
+    <div id="app" class="relative min-h-screen">
+        <slot />
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  ::selection {
+    background: var(--primary);
+    color: var(--bg);
+  }
+</style>
