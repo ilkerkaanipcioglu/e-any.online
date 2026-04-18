@@ -4,130 +4,16 @@
    HAREZM ECOSYSTEM — DESIGN SYSTEM
    ======================================== */
 
-:root {
-  /* ========================================
-     V5.0 COLOR TOKENS (Palette v4.4)
-     ======================================== */
+@import "./tokens.css";
 
-  /* Common Matte Backgrounds */
-  --bg-light: #F5F4F2;
-  --surf-light: #EDECEA;
-  --border-light: #DDDBD8;
-  
-  --bg-dark: #1A1A1A;
-  --surf-dark: #242424;
-  --border-dark: #333333;
-
-  /* Brand: Harezm (Plum) */
-  --hz-primary: #82165F;
-  --hz-primary-dark: #B34E8F;
-  --hz-surf-light: #F5ECF2;
-  --hz-surf-dark: #2A0B20;
-  --hz-muted: #C47AAE;
-  
-  /* Brand: Ipcioglu (Crimson Red) */
-  --ip-primary: #E63946;
-  --ip-primary-dark: #F25C69;
-  --ip-surf-light: #FDECEA;
-  --ip-surf-dark: #2A0A0A;
-
-  /* Brand: Eny (Neon Lime) */
-  --en-primary: #D0FD17;
-  --en-surf-light: #F4FFCC;
-  --en-surf-dark: #1C1C1C;
-  --en-card-dark: #222222;
-
-  /* Brand: AgentAndBot (Lila) */
-  --ab-primary: #9B77FF;
-  --ab-primary-dark: #C9B1FF;
-  --ab-surf-light: #F0EAFF;
-  --ab-surf-dark: #150A2A;
-  --ab-muted: #D8C4FF;
-
-  /* Brand Extension: e-any family */
-  --ea-mint: #5DCBA5;
-  --ea-mint-dark: #8DEDC8;
-  --ea-surf-light: #F0F9F5;
-  --ea-surf-dark: #0A1F16;
-
-  --eo-gold: #EF9F27;
-  --eo-gold-dark: #FFDF9E;
-  --eo-surf-light: #FFF9EB;
-  --eo-surf-dark: #2B230A;
-
-  --ei-sky: #85B7EB;
-  --ei-sky-dark: #C7E8FD;
-  --ei-surf-light: #F0F8FF;
-  --ei-surf-dark: #0A182B;
-
-  /* Common */
-  --font-display: "Syne", sans-serif;
-  --font-mono: "DM Mono", monospace;
-  --trans: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* 
-   THEME SELECTION 
-   Switch variables based on the active brand
-*/
-
-:root[data-brand="harezm"],
+/* Project cornerstone: eany-online (Tools Pillar) */
 :root:not([data-brand]) {
-  --primary: var(--hz-primary);
-  --primary-glow: var(--hz-primary-dark);
-  --surf-tint-light: var(--hz-surf-light);
-  --surf-tint-dark: var(--hz-surf-dark);
-  --accent: var(--hz-muted);
+  --h: 355;
+  --s: 78%;
+  --l: 56%;
 }
 
-:root[data-brand="eny"] {
-  --primary: var(--en-primary);
-  --primary-glow: var(--en-primary);
-  --surf-tint-light: var(--en-surf-light);
-  --surf-tint-dark: var(--en-surf-dark);
-  --accent: var(--en-card-dark);
-}
-
-:root[data-brand="ipcioglu"],
-:root[data-brand="ilkerkaan"] {
-  --primary: var(--ip-primary);
-  --primary-glow: var(--ip-primary-dark);
-  --surf-tint-light: var(--ip-surf-light);
-  --surf-tint-dark: var(--ip-surf-dark);
-  --accent: var(--ip-primary);
-}
-
-:root[data-brand="agentandbot"] {
-  --primary: var(--ab-primary);
-  --primary-glow: var(--ab-primary-dark);
-  --surf-tint-light: var(--ab-surf-light);
-  --surf-tint-dark: var(--ab-surf-dark);
-  --accent: var(--ab-muted);
-}
-
-:root[data-brand="e-any-com"] {
-  --primary: var(--ea-mint);
-  --primary-glow: var(--ea-mint-dark);
-  --surf-tint-light: var(--ea-surf-light);
-  --surf-tint-dark: var(--ea-surf-dark);
-  --accent: var(--ea-mint);
-}
-
-:root[data-brand="e-any-online"] {
-  --primary: var(--eo-gold);
-  --primary-glow: var(--eo-gold-dark);
-  --surf-tint-light: var(--eo-surf-light);
-  --surf-tint-dark: var(--eo-surf-dark);
-  --accent: var(--eo-gold);
-}
-
-:root[data-brand="e-any-info"] {
-  --primary: var(--ei-sky);
-  --primary-glow: var(--ei-sky-dark);
-  --surf-tint-light: var(--ei-surf-light);
-  --surf-tint-dark: var(--ei-surf-dark);
-  --accent: var(--ei-sky);
-}
+/* Theme fallback handled by tokens.css + data-brand selectors */
 
 /* 
    DARK MODE (Default)
