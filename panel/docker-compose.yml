@@ -1,0 +1,28 @@
+services:
+  e_any_panel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: e-any-panel
+    environment:
+      PHX_SERVER: "true"
+      PORT: "4000"
+      PHX_HOST: "panel.e-any.online"
+      DATABASE_URL: "${DATABASE_URL}"
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+      CLOAK_KEY: "${CLOAK_KEY}"
+      POOL_SIZE: "10"
+      NPM_API_URL: "${NPM_API_URL:-http://core-nginx:81}"
+      NPM_API_TOKEN: "${NPM_API_TOKEN}"
+    networks:
+      - proxy-network
+      - internal-network
+    restart: unless-stopped
+
+networks:
+  proxy-network:
+    external: true
+    name: proxy-network
+  internal-network:
+    external: true
+    name: internal-network

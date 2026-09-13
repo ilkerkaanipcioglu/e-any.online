@@ -1,0 +1,4 @@
+#!/bin/sh
+# Starts the release with PHX_SERVER enabled.
+cd "$(dirname "$0")/.." || exit 1
+PHX_SERVER=true exec ./bin/e_any_panel start
